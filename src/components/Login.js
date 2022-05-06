@@ -1,6 +1,8 @@
 import axios from "axios";
-import swal from "@sweetalert/with-react";
+import Swal from 'sweetalert2'
 import { useNavigate } from "react-router-dom";
+import "../css/bootstrap.min.css"
+import "../css/Login.css"
 
 
 function Login() {
@@ -16,17 +18,17 @@ function Login() {
         const password = e.target.password.value;
 
         if (email === "" || password === "") {
-            swal("Error","Los campos deben estar completos", "error");
+            Swal("Error","Los campos deben estar completos", "error");
             return;
         }
 
         if (email !== "" && !regExEmail.test(email)) {
-            swal("Error","Debes escribir una direccción de correo valida" , "error");
+            Swal("Error","Debes escribir una direccción de correo valida" , "error");
             return
         }
 
         if (email !== "challenge@alkemy.org" || password !== "react") {
-            swal("Error","Credenciales invalidas", "error");
+            Swal("Error","Credenciales invalidas", "error");
             return
         }
 
@@ -34,7 +36,7 @@ function Login() {
 
         axios.post('http://challenge-react.alkemy.org' , {email, password})
             .then(res => {
-                swal(<h1>Perfecto</h1>, <p>Estamos listos!</p>, "success");
+                Swal(<h1>Perfecto</h1>, <p>Estamos listos!</p>, "success");
                 console.log (res.data);
                 const tokenRes = res.data.token;
                 localStorage.setItem("token", tokenRes);
@@ -45,6 +47,7 @@ function Login() {
     return (
         <>
             <h2>Formulario de login</h2>
+            <div className="form-group">
             <form onSubmit={submitHandler}>
                 <label>
                     <span> Correo electrónico:</span> <br />
@@ -56,8 +59,11 @@ function Login() {
                     <input type="password" name="password" />
                 </label>
                 <br />
-                <button type="submit">Ingresar</button>
+                <div className="btn-group">
+                <button type="submit" className="btn btn-success">Ingresar</button>
+                </div>
             </form>
+            </div>
         </>
     )
 }
